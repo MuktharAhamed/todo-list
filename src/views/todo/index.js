@@ -1,33 +1,52 @@
-import "./App.css";
+import "App.css";
 import {
   Typography,
   TextField,
   InputAdornment,
   Container,
   Box,
+  IconButton,
 } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
-import List from "./components/list";
-import { useState } from "react";
-import Selectcontrol from "./components/Selectcontrol";
+import { Add, ArrowBackIos } from "@material-ui/icons";
+import List from "components/list";
+import { useEffect, useRef, useState } from "react";
+import Selectcontrol from "components/Selectcontrol";
 import SearchBar from "material-ui-search-bar";
+import usePrevious from "hooks/usePrevious";
+import { useHistory } from "react-router";
 export const filterObjIndexMap = {
   0: "all",
   1: "todo",
   2: "completed",
 };
 
-function App() {
+function Todo() {
   const [dataval, setdata] = useState([]);
   const [filter, setFilter] = useState("all");
-  const [task, settask] = useState("");
+  // const [task, settask] = useState("");
   const [search, setSearch] = useState("");
+
+  const history = useHistory();
+
+  const previousFilter = usePrevious(filter);
+
+  console.log("Previous selected Filter", previousFilter);
+
+  const addTodoRef = useRef();
+
+  const navigatehis = () => {
+    history.push("/todo/sdf");
+  };
+
+  const naviHome = () => history.push("/");
+
   const todo = (e) => {
     e.preventDefault();
     var date = new Date(Date.now());
     let mm = date.getMonth();
     let dd = date.getDate();
     let yy = date.getFullYear();
+    const task = addTodoRef.current.value;
     if (task.length) {
       setdata([
         ...dataval,
@@ -38,7 +57,9 @@ function App() {
           createddate: `${dd}-${mm}-${yy}`,
         },
       ]);
-      settask("");
+      // settask("");
+      addTodoRef.current.value = "";
+      navigatehis();
     }
   };
   const idgenerator = () => {
@@ -72,6 +93,9 @@ function App() {
   };
   return (
     <div className="App">
+      <IconButton onClick={naviHome}>
+        <ArrowBackIos />
+      </IconButton>
       <Container className="Container" maxWidth="xs">
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex" }}>
@@ -110,8 +134,12 @@ function App() {
             <form onSubmit={todo}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <TextField
-                  onChange={(e) => settask(e.target.value)}
-                  value={task}
+                  // onChange={(e) => settask(e.target.value)}
+                  // value={task}
+                  // innerRef={addTodoRef}
+                  InputProps={{
+                    inputRef: addTodoRef,
+                  }}
                   variant="outlined"
                   label="Add New"
                   size="small"
@@ -141,4 +169,4 @@ function App() {
   );
 }
 
-export default App;
+export default Todo;

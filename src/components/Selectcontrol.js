@@ -1,7 +1,7 @@
 import { FilterList } from "@material-ui/icons";
 import { makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { useState } from "react";
-import { filterObjIndexMap } from "../App";
+import { filterObjIndexMap } from "../views/Dashboard/Dashboard";
 const useclasses = makeStyles((theme) => ({
   menu: {
     padding: theme.spacing(2),

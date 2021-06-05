@@ -1,23 +1,29 @@
 import { IconButton } from "@material-ui/core";
 import { Done, Delete } from "@material-ui/icons";
-import { useEffect, useState } from "react";
-import { filterObjIndexMap } from "../App";
-
-let temp = [];
+import { useEffect, useRef, useState } from "react";
+import { filterObjIndexMap } from "views/todo";
 
 const List = ({ data, filter, search, updatecompleted, deletetodo }) => {
   const [todos, setTodos] = useState(data);
+  // const [temp, setTemp] = useState([]);
+
+  const searchData = useRef();
 
   useEffect(() => {
     filterData();
+    // subscription -> componentDidMount()
+
+    // unsubscribe
+    // return unsubscribe; // componentWillUnmount()
   }, [filter, data]);
 
   useEffect(() => {
     const searchtext = new RegExp(search, "i");
-    const filteredTodos = temp.filter(({ text }) =>
+    const filteredTodos = searchData.current.filter(({ text }) =>
       Boolean(text.match(searchtext))
     );
     setTodos(filteredTodos);
+    console.log("filteredTodos", filteredTodos);
   }, [search]);
 
   const filterData = () => {
@@ -28,7 +34,8 @@ const List = ({ data, filter, search, updatecompleted, deletetodo }) => {
       filteredData = data.filter((e) => e.completed);
     }
     setTodos(filteredData);
-    temp = filteredData;
+    searchData.current = filteredData;
+    // setTemp(filteredData);
   };
 
   return (
