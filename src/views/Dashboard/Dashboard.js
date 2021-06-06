@@ -76,7 +76,7 @@ const Dashboard = () => {
       <Container className={classes.container} maxWidth="sm">
         <Grid container justify="center" spacing={4}>
           <ListItem title="Todo" to="/todo" />
-          <ListItem title="Expense Calculator" to="/expense-calculator" />
+          <ListItem title="Expense Calculator" to="/expense" />
           <ListItem title="Expense Calculator" to="/expense-calculator" />
         </Grid>
       </Container>
